@@ -84,9 +84,12 @@
   "TOML Mode starter for vtm files."
   (if (= 0 (length (string-trim (buffer-string))))
       (vtm--populate-buffer)
-    (when (and (not vtm-edit-mode)
-               (featurep 'vterm))
-      (vtm--open-vterm))))
+    (unless vtm-edit-mode
+      (unless (featurep 'vterm)
+        (require 'vterm nil t))
+      (if (featurep 'vterm)
+          (vtm--open-vterm)
+        (message "The vterm feature is unavailable.")))))
 
 (setq auto-mode-alist
       (append
