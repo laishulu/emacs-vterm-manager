@@ -1,4 +1,4 @@
-;;; sis.el --- Manages vterm buffers with configuration files -*- lexical-binding: t; -*-
+;;; vtm.el --- Manages vterm buffers with configuration files -*- lexical-binding: t; -*-
 
 ;; URL: https://github.com/laishulu/emacs-vterm-manager
 ;; Created: August 23th, 2020
