@@ -49,10 +49,10 @@
   "Populate a buffer with scaffold."
   (goto-char (point-min))
   (insert "# TOML format, uncomment line to enable.\n")
-  (insert "# (optional) verbose name, default to filename.\n")
-  (insert "# vebose = \"\"\n")
   (insert "# (optional) command to run, default to nil.\n")
   (insert "# command = \"COMMAND\"\n")
+  (insert "# (optional) verbose name, default to filename.\n")
+  (insert "# vebose = \"\"\n")
   (insert "# (optional) sleep before command, default to 0.\n")
   (insert "# sleep = 0\n")
   (let ((case-fold-search nil))
