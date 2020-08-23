@@ -1,0 +1,24 @@
+#+TITLE: README
+[[https://melpa.org/#/sis][file:https://melpa.org/packages/vtm-badge.svg]]
+
+* About
+~vtm~ manages ~vterm~ buffers with configuration files.
+
+It's especially useful when may hosts need to be managed simultaneously.
+
+* Usage
+1. Create a /.vtm/ file, populate the value of the "command" key, then save and
+   close the buffer.
+2. Open the /.vtm/ file like a normal file, a ~vterm~ buffer will be opened
+   instead.
+3. Toggle ~vtm-edit-mode~ to switch between editing the /.vtm/ file and openning
+   the ~vterm~ buffer.
+
+* Install
+Just install ~vtm~ from ~melpa~.
+
+* Variables and commands
+| Variable                   | Description                                        | Default                              |
+|----------------------------+----------------------------------------------------+--------------------------------------|
+| ~vtm-prefix-string~        | Prefix string of the vterm buffer name.            | ~VTM~                                |
+|----------------------------+----------------------------------------------------+--------------------------------------|
