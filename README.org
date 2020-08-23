@@ -4,7 +4,7 @@
 * About
 ~vtm~ manages ~vterm~ buffers with configuration files.
 
-It's especially useful when may hosts need to be managed simultaneously.
+Especially useful when sshing to many hosts simultaneously.
 
 #+CAPTION: vtm
 [[./screenshots/vtm.gif]]
