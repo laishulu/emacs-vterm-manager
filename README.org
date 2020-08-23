@@ -6,6 +6,9 @@
 
 It's especially useful when may hosts need to be managed simultaneously.
 
+#+CAPTION: vtm
+[[./screenshots/vtm.gif]]
+
 * Usage
 1. Create a /.vtm/ file, populate the value of the "command" key, then save and
    close the buffer.
