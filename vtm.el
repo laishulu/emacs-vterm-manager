@@ -52,7 +52,7 @@
   (insert "# (optional) command to run, default to nil.\n")
   (insert "# command = \"COMMAND\"\n")
   (insert "# (optional) verbose name, default to filename.\n")
-  (insert "# vebose = \"\"\n")
+  (insert "# verbose = \"\"\n")
   (insert "# (optional) sleep before command, default to 0.\n")
   (insert "# sleep = 0\n")
   (let ((case-fold-search nil))
