@@ -63,8 +63,8 @@
   "Open vterm with config from the current vtm buffer."
   (let* ((vtm-buffer (current-buffer))
          (conf (toml:read-from-string (buffer-string)))
-         (name (or(assoc-default "verbose" conf)
-                  (file-name-base (buffer-name))))
+         (name (or (assoc-default "verbose" conf)
+                   (file-name-base (buffer-name))))
          (vterm-name (format "*VTM:%s*" name))
          (sleep (assoc-default "sleep" conf nil))
          (command (assoc-default "command" conf))
