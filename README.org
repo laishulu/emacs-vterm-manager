@@ -21,7 +21,8 @@ Especially useful when sshing to many hosts simultaneously.
 Just install ~vtm~ from ~melpa~.
 
 * Variables and commands
-| Variable            | Description                             | Default |
-|---------------------+-----------------------------------------+---------|
-| ~vtm-prefix-string~ | Prefix string of the vterm buffer name. | ~VTM:~  |
-|---------------------+-----------------------------------------+---------|
+| Variable             | Description                              | Default |
+|----------------------+------------------------------------------+---------|
+| ~vtm-prefix-string~  | Prefix string of the vterm buffer name.  | ~*VTM:~ |
+| ~vtm-postfix-string~ | Postfix string of the vterm buffer name. | ~*~     |
+|----------------------+------------------------------------------+---------|
