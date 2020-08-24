@@ -34,6 +34,7 @@
 (declare-function vterm "ext:vterm.el" (&optional buffer-name) t)
 (declare-function vterm-send-string "ext:vterm.el" (string &optional paste-p) t)
 (declare-function vterm-send-return "ext:vterm.el" () t)
+(declare-function toml:read-from-string "ext:toml.el" (string) t)
 
 ;;;###autoload
 (define-minor-mode vtm-edit-mode
