@@ -28,7 +28,7 @@
 ;;; Code:
 (require 'subr-x)
 
-(defvar vtm-prefix-string "VTM"
+(defvar vtm-prefix-string "VTM:"
   "Prefix string of the vterm buffer name.")
 
 (declare-function vterm "ext:vterm.el" (&optional buffer-name) t)
@@ -66,7 +66,7 @@
          (conf (toml:read-from-string (buffer-string)))
          (name (or (assoc-default "verbose" conf)
                    (file-name-base (buffer-name))))
-         (vterm-name (format "*VTM:%s*" name))
+         (vterm-name (format "*%s%s*" vtm-prefix-string name))
          (sleep (assoc-default "sleep" conf nil))
          (command (assoc-default "command" conf))
          (vterm-buffer (get-buffer vterm-name)))
