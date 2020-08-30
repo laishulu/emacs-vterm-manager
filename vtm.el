@@ -3,7 +3,7 @@
 ;; URL: https://github.com/laishulu/emacs-vterm-manager
 ;; Created: August 23th, 2020
 ;; Keywords: convenience
-;; Package-Requires: ((emacs "27.1"))
+;; Package-Requires: ((emacs "27.1")(toml "0"))
 ;; Version: 1.0
 
 ;; This file is not part of GNU Emacs.
@@ -27,6 +27,7 @@
 
 ;;; Code:
 (require 'subr-x)
+(require 'toml)
 
 (defvar vtm-prefix-string "*VTM:"
   "Prefix string of the vterm buffer name.")
@@ -36,17 +37,12 @@
 (declare-function vterm "ext:vterm.el" (&optional buffer-name) t)
 (declare-function vterm-send-string "ext:vterm.el" (string &optional paste-p) t)
 (declare-function vterm-send-return "ext:vterm.el" () t)
-(declare-function toml:read-from-string "ext:toml.el" (string) t)
 
 ;;;###autoload
 (define-minor-mode vtm-edit-mode
   "Enable editing the vtm file."
   :global t
   :init-value nil)
-
-;; load feature `toml'
-(unless (featurep 'toml)
-  (load (expand-file-name "toml" (file-name-directory load-file-name))))
 
 (defun vtm--populate-buffer ()
   "Populate a buffer with scaffold."
