@@ -1,5 +1,5 @@
 #+TITLE: README
-[[https://melpa.org/#/sis][file:https://melpa.org/packages/vtm-badge.svg]]
+[[https://melpa.org/#/vtm][file:https://melpa.org/packages/vtm-badge.svg]]
 
 * About
 ~vtm~ manages ~vterm~ buffers with configuration files.
