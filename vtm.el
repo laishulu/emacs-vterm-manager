@@ -3,8 +3,8 @@
 ;; URL: https://github.com/laishulu/emacs-vterm-manager
 ;; Created: August 23th, 2020
 ;; Keywords: convenience
-;; Package-Requires: ((emacs "27.1")(toml "0"))
-;; Version: 1.0
+;; Package-Requires: ()
+;; Version: 2.0
 
 ;; This file is not part of GNU Emacs.
 
@@ -47,41 +47,72 @@
 (defun vtm--populate-buffer ()
   "Populate a buffer with scaffold."
   (goto-char (point-min))
-  (insert "# TOML format, uncomment line to enable.\n")
-  (insert "# (optional) command to run, default to nil.\n")
-  (insert "# command = \"COMMAND\"\n")
-  (insert "# (optional) verbose name, default to filename.\n")
-  (insert "# verbose = \"\"\n")
-  (insert "# (optional) sleep before command, default to 0.\n")
-  (insert "# sleep = 0\n")
+  (insert ";; ;; Uncomment line to enable.\n")
+  (insert "(\n")
+  (insert " ;; ;; [optional] name, default to filename.\n")
+  (insert " ;; :name \"\"\n")
+  (insert "\n")
+  (insert " ;; ;; [optional] commands to run, default to nil.\n")
+  (insert " :commands\n")
+  (insert "  (\n")
+  (insert "\n")
+  (insert "   ;; ;; first command.\n")
+  (insert "   ;; (\n")
+  (insert "    ;; ;; [optional] sleep before command, default to 0.\n")
+  (insert "    ;; :sleep 0\n")
+  (insert "    ;; ;; [optional] string to send, default to nil.\n")
+  (insert "    ;; :string \"\"\n")
+  (insert "    ;; ;; [optional] send return, default to t.\n")
+  (insert "    ;; :return t\n")
+  (insert "    ;; )\n")
+  (insert "\n")
+  (insert "   ;; ;; second command.\n")
+  (insert "   ;; (\n")
+  (insert "    ;; ;; [optional] sleep before command, default to 0.\n")
+  (insert "    ;; :sleep 0\n")
+  (insert "    ;; ;; [optional] string to send, default to nil.\n")
+  (insert "    ;; :string \"\"\n")
+  (insert "    ;; ;; [optional] send return, default to t.\n")
+  (insert "    ;; :return t\n")
+  (insert "    ;; )\n")
+  (insert "\n")
+  (insert "  ))\n")
   (let ((case-fold-search nil))
     (search-backward "COMMAND"))
   (delete-char (length "COMMAND")))
 
+(defvar vtm--conf nil)
+
 (defun vtm--open-vterm ()
   "Open vterm with config from the current vtm buffer."
   (let* ((vtm-buffer (current-buffer))
-         (conf (toml:read-from-string (buffer-string)))
-         (name (or (assoc-default "verbose" conf)
+         (conf (read vtm-buffer))
+         (name (or (plist-get conf :name)
                    (file-name-base (buffer-name))))
          (vterm-name
           (format "%s%s%s" vtm-prefix-string name vtm-postfix-string))
-         (sleep (assoc-default "sleep" conf nil))
-         (command (assoc-default "command" conf))
-         (vterm-buffer (get-buffer vterm-name)))
+         (vterm-buffer (get-buffer vterm-name))
+         (commands (plist-get conf :commands)))
+    (setq vtm--conf conf)
     (if vterm-buffer
         (switch-to-buffer vterm-buffer)
       (vterm vterm-name)
-      (when sleep
-        (sleep-for sleep))
-      (when command
-        (vterm-send-string command)
-        (vterm-send-return)))
+
+      (dolist (command commands)
+        (let ((sleep (plist-get command :sleep))
+              (str (plist-get command :string))
+              (return (plist-get command :return)))
+          (when sleep
+            (sleep-for sleep))
+          (when str
+            (vterm-send-string str))
+          (when return
+            (vterm-send-return)))))
     (kill-buffer vtm-buffer)))
 
 ;;;###autoload
-(define-derived-mode vtm-mode conf-toml-mode "TOML[vtm]"
-  "TOML Mode starter for vtm files."
+(define-derived-mode vtm-mode emacs-lisp-mode "Elisp[vtm]"
+  "Elisp Mode starter for vtm files."
   (if (= 0 (length (string-trim (buffer-string))))
       (vtm--populate-buffer)
     (unless vtm-edit-mode
