@@ -9,6 +9,15 @@ Especially useful when sshing to many hosts simultaneously.
 #+CAPTION: vtm
 [[./screenshots/vtm.gif]]
 
+* Features
+1. Name of the vterm buffer can be explicitly specified by configuration or
+   implicitly infered from configuration file name. So users can switch between
+   different vterm buffer easily.
+2. Multiple strings can be sent to vterm buffer by configuration.
+3. Control characters can be sent to vterm buffer by configuration.
+4. Time to sleep before sending string or control characters can be specified by
+   configuration.
+
 * Usage
 1. Create a /.vtm/ file (e.g. /host.vtm/), ~vtm~ will populate it with an
    example config.
