@@ -103,9 +103,11 @@
           (when (and (stringp str)
                      (not (string-blank-p str)))
             (vterm-send-string str))
-          (when (and (stringp control)
-                     (not (string-blank-p control)))
-            (funcall (intern (format "vterm-send-%s" control)))))))
+          (funcall (intern (format "vterm-send-return"
+                                   (if (and (stringp control)
+                                            (string-blank-p control))
+                                       control
+                                     "return")))))))
 
     (kill-buffer vtm-buffer)))
 
