@@ -10,7 +10,8 @@ Especially useful when sshing to many hosts simultaneously.
 [[./screenshots/vtm.gif]]
 
 * Usage
-1. Create a /.vtm/ file, ~vtm~ will populate it with an example config.
+1. Create a /.vtm/ file (e.g. /host.vtm/), ~vtm~ will populate it with an
+   example config.
 2. Edit the /.vtm/ file as your wish, then close the buffer.
 3. Open the /.vtm/ file like a normal file, a ~vterm~ buffer will be opened
    instead.
