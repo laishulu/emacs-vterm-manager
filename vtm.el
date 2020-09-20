@@ -29,7 +29,7 @@
 (require 'subr-x)
 (require 'toml)
 
-(defvar vtm-prefix-string "*T:"
+(defvar vtm-prefix-string "*>"
   "Prefix string of the vterm buffer name.")
 (defvar vtm-postfix-string "*"
   "Postfix string of the vterm buffer name.")

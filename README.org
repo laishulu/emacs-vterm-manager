@@ -33,6 +33,6 @@ Just install ~vtm~ from ~melpa~.
 * Variables and commands
 | Variable             | Description                              | Default |
 |----------------------+------------------------------------------+---------|
-| ~vtm-prefix-string~  | Prefix string of the vterm buffer name.  | ~*T:~   |
+| ~vtm-prefix-string~  | Prefix string of the vterm buffer name.  | ~*>~    |
 | ~vtm-postfix-string~ | Postfix string of the vterm buffer name. | ~*~     |
 |----------------------+------------------------------------------+---------|
