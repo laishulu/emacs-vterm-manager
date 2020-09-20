@@ -10,11 +10,11 @@ Especially useful when sshing to many hosts simultaneously.
 [[./screenshots/vtm.gif]]
 
 * Usage
-1. Create a /.vtm/ file, populate the value of the "command" key, then save and
-   close the buffer.
-2. Open the /.vtm/ file like a normal file, a ~vterm~ buffer will be opened
+1. Create a /.vtm/ file, ~vtm~ will populate it with an example config.
+2. Edit the /.vtm/ file as your wish, then close the buffer.
+3. Open the /.vtm/ file like a normal file, a ~vterm~ buffer will be opened
    instead.
-3. Toggle ~vtm-edit-mode~ to switch between editing the /.vtm/ file and openning
+4. Toggle ~vtm-edit-mode~ to switch between editing the /.vtm/ file and openning
    the ~vterm~ buffer.
 
 * Install
