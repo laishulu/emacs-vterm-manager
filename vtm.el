@@ -36,7 +36,6 @@
 
 (declare-function vterm "ext:vterm.el" (&optional buffer-name) t)
 (declare-function vterm-send-string "ext:vterm.el" (string &optional paste-p) t)
-(declare-function vterm-send-return "ext:vterm.el" () t)
 
 ;;;###autoload
 (define-minor-mode vtm-edit-mode
@@ -63,7 +62,7 @@
   (insert "    ;; ;; [Optional] string to send, default to nil.\n")
   (insert "    ;; :string \"\"\n")
   (insert "    ;; ;; [Optional] additional control character to send.\n")
-  (insert "    ;; ;; Check commands of /vterm-send-*/, default to return.\n")
+  (insert "    ;; ;; Check commands of /vterm-send-*/, default to \"return\".\n")
   (insert "    ;; :control \"return\"\n")
   (insert "    ;; )\n")
   (insert "\n")
@@ -99,11 +98,13 @@
         (let ((sleep (plist-get command :sleep))
               (str (plist-get command :string))
               (control (plist-get command :control)))
-          (when sleep
+          (when (integerp sleep)
             (sleep-for sleep))
-          (when str
+          (when (and (stringp str)
+                     (not (string-blank-p str)))
             (vterm-send-string str))
-          (when control
+          (when (and (stringp control)
+                     (not (string-blank-p control)))
             (funcall (intern (format "vterm-send-%s" control)))))))
 
     (kill-buffer vtm-buffer)))
