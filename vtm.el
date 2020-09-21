@@ -4,7 +4,7 @@
 ;; Created: August 23th, 2020
 ;; Keywords: convenience
 ;; Package-Requires: ()
-;; Version: 2.0
+;; Version: 1.0.0
 
 ;; This file is not part of GNU Emacs.
 
@@ -27,7 +27,6 @@
 
 ;;; Code:
 (require 'subr-x)
-(require 'toml)
 
 (defvar vtm-prefix-string "*>"
   "Prefix string of the vterm buffer name.")
@@ -37,6 +36,9 @@
 (declare-function vterm "ext:vterm.el" (&optional buffer-name) t)
 (declare-function vterm-send-string "ext:vterm.el" (string &optional paste-p) t)
 
+(defconst vtm--base (file-name-directory load-file-name)
+  "Base directory of this package.")
+
 ;;;###autoload
 (define-minor-mode vtm-edit-mode
   "Enable editing the vtm file."
@@ -45,51 +47,41 @@
 
 (defun vtm--populate-buffer ()
   "Populate a buffer with scaffold."
-  (goto-char (point-min))
-  (insert ";; ;; Uncomment lines to enable.\n")
-  (insert "(\n")
-  (insert " ;; ;; [Optional] name, default to filename.\n")
-  (insert " ;; :name \"\"\n")
-  (insert "\n")
-  (insert " ;; ;; [Optional] commands to run, default to nil.\n")
-  (insert " :commands\n")
-  (insert "  (\n")
-  (insert "\n")
-  (insert "   ;; ;; First command.\n")
-  (insert "   ;; (\n")
-  (insert "    ;; ;; [Optional] sleep before command, default to 0.\n")
-  (insert "    ;; :sleep 0\n")
-  (insert "    ;; ;; [Optional] string to send, default to nil.\n")
-  (insert "    ;; :string \"\"\n")
-  (insert "    ;; ;; [Optional] additional control character to send.\n")
-  (insert "    ;; ;; Check commands of /vterm-send-*/, default to \"return\".\n")
-  (insert "    ;; :control \"return\"\n")
-  (insert "    ;; )\n")
-  (insert "\n")
-  (insert "   ;; ;; Second command.\n")
-  (insert "   ;; (:sleep 0 :string \"\" :control \"return\")\n")
-  (insert "\n")
-  (insert "   ;; ;; Third command.\n")
-  (insert "   ;; (:string \"\")\n")
-  (insert "\n")
-  (insert "  ))\n")
-  (let ((case-fold-search nil))
-    (search-backward "COMMAND"))
-  (delete-char (length "COMMAND")))
+  (insert-file-contents-literally
+   (expand-file-name "example.el" vtm--base) nil nil nil t)
+  (search-forward "{CURSOR}")
+  (replace-match ""))
 
-(defvar vtm--conf nil)
+(defun vtm--property-missing-p (plist property)
+  "Predicate of PROPERTY is missing in PLIST."
+  (not (plist-member plist property)))
+
+(defun vtm--property-missing-or-nil-p (plist property)
+  "Predicate of PROPERTY is missing or nil in PLIST."
+  (not (plist-get plist property)))
+
+(defun vtm--property-exist-and-nil-p (plist property)
+  "Predicate of PROPERTY exists and is nil in PLIST."
+  (and (plist-member plist property)
+       (eq nil (plist-get plist property))))
+
+(defun vtm--property-blank-p (plist property)
+  "Predicate of PROPERTY is blank in PLIST."
+  (let ((value (plist-get plist property)))
+    (and (stringp value) (string-blank-p value))))
 
 (defun vtm--open-vterm ()
   "Open vterm with config from the current vtm buffer."
   (let* ((vtm-buffer (current-buffer))
          (conf (read vtm-buffer))
-         (name (or (plist-get conf :name)
-                   (file-name-base (buffer-name))))
+         (name (if (or (vtm--property-missing-or-nil-p conf :name)
+                       (vtm--property-blank-p conf :name))
+                   (file-name-base (buffer-name))
+                 (plist-get conf :name)))
          (vterm-name
           (format "%s%s%s" vtm-prefix-string name vtm-postfix-string))
          (vterm-buffer (get-buffer vterm-name))
          (commands (plist-get conf :commands)))
-    (setq vtm--conf conf)
     (if vterm-buffer
         (switch-to-buffer vterm-buffer)
       (vterm vterm-name)
@@ -97,17 +89,17 @@
       (dolist (command commands)
         (let ((sleep (plist-get command :sleep))
               (str (plist-get command :string))
-              (control (plist-get command :control)))
+              (control (if (or (vtm--property-missing-p command :control)
+                               (vtm--property-blank-p command :control))
+                           "return"
+                         (plist-get command :control))))
           (when (integerp sleep)
             (sleep-for sleep))
           (when (and (stringp str)
                      (not (string-blank-p str)))
             (vterm-send-string str))
-          (funcall (intern (format "vterm-send-return"
-                                   (if (and (stringp control)
-                                            (string-blank-p control))
-                                       control
-                                     "return")))))))
+          (when control
+            (funcall (intern (format "vterm-send-%s" control)))))))
 
     (kill-buffer vtm-buffer)))
 
