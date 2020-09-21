@@ -18,6 +18,9 @@ Especially useful when sshing to many hosts simultaneously.
 4. Time to sleep before sending string or control characters can be specified by
    configuration.
 
+* Install
+Just install ~vtm~ from ~melpa~.
+
 * Usage
 1. Create a /.vtm/ file (e.g. /host.vtm/), ~vtm~ will populate it with an
    example config.
@@ -60,9 +63,6 @@ Example /.vtm/ file
 
   ))
 #+END_SRC
-
-* Install
-Just install ~vtm~ from ~melpa~.
 
 * Variables and commands
 | Variable             | Description                              | Default |
